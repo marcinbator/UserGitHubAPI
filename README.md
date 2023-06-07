@@ -17,3 +17,7 @@ When you have everything installed, run the server - it will be accessible at lo
 where USER_NAME means username of account of which repositories you want to see.
 
 In case you have provided the invalid username, API will respond with a 404 status. Program will raise an exception if you set Accept header to application/xml.
+
+### Note:
+
+Github has limites access rate to it's API which is 60 connections per hour. Unless you have a premium account, this limitation will cause 404NotFound exception.
