@@ -18,14 +18,14 @@ public class RepoController {
 
     @GetMapping("/api/{username}")
     public ResponseEntity<?> getRepositoriesJson(@RequestHeader(HttpHeaders.ACCEPT) String acceptHeader, @PathVariable String username) throws IOException {
+        if (!RepoService.ifUserExists(username)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(createErrorResponse(HttpStatus.NOT_FOUND.value(), "User not found."));
+        }
         if (acceptHeader.equals("application/json")){
             return ResponseEntity.ok(RepoService.getRepos(username));
         }
         if (acceptHeader.equals("application/xml")) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(createErrorResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Unsupported media type: application/xml."));
-        }
-        if (!RepoService.ifUserExists(username)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(createErrorResponse(HttpStatus.NOT_FOUND.value(), "User not found."));
         }
         return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body(createErrorResponse(HttpStatus.REQUEST_TIMEOUT.value(), "Request timeout."));
     }

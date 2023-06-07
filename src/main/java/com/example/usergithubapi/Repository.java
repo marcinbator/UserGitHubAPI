@@ -3,23 +3,27 @@ package com.example.usergithubapi;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 
+
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Repo {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Repository {
     int id;
     String name;
-    boolean fork;
     Owner owner;
     ArrayList<Branch> branches;
 }
+
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Owner {
     String login;
 }
+
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Branch {
