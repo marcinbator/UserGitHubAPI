@@ -1,6 +1,7 @@
 package com.example.usergithubapi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 public class Repo {
     int id;
     String name;
+    boolean fork;
     Owner owner;
     ArrayList<Branch> branches;
 }
