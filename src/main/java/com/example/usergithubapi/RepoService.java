@@ -6,6 +6,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -13,17 +14,27 @@ import java.util.ArrayList;
 
 public class RepoService {
     public static ArrayList<RepoToShow> getRepos(String username) throws IOException {
-        
+        String apiUrl = "https://api.github.com/"+username+"/repos";
+        URL url1 = new URL(apiUrl);
+
+        HttpURLConnection connection = (HttpURLConnection) url1.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Authorization", "token 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");
 
         ObjectMapper objectMapper=new ObjectMapper();
-        ArrayList<Repo> repos=objectMapper.readValue(new URL("https://api.github.com/users/"+username+"/repos"), new TypeReference<>() {});
+        ArrayList<Repo> repos=objectMapper.readValue(connection.getInputStream(), new TypeReference<>() {});
         ArrayList<Repo> reposToRemove=new ArrayList<>();
         ArrayList<RepoToShow> reposToShow=new ArrayList<>();
         for(Repo repo:repos){
             if(repo.fork){
                 reposToRemove.add(repo);
             }
-            ArrayList<Branch> branches=objectMapper.readValue(new URL("https://api.github.com/repos/marcinbator/" + repo.name.toLowerCase() + "/branches"), new TypeReference<>() {});
+            String apiUrl2="https://api.github.com/repos/marcinbator/" + repo.name.toLowerCase() + "/branches";
+            URL url2=new URL(apiUrl2);
+            HttpURLConnection connection2 = (HttpURLConnection) url2.openConnection();
+            connection2.setRequestMethod("GET");
+            connection2.setRequestProperty("Authorization", "token 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");
+            ArrayList<Branch> branches=objectMapper.readValue(connection2.getInputStream(), new TypeReference<>() {});
             repo.setBranches(branches);
         }
         repos.removeAll(reposToRemove);
