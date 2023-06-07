@@ -19,7 +19,7 @@ public class RepoController {
     @GetMapping("/api/{username}")
     public ResponseEntity<?> getRepositoriesJson(@RequestHeader(HttpHeaders.ACCEPT) String acceptHeader, @PathVariable String username) throws IOException {
         if (!RepoService.ifUserExists(username)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(createErrorResponse(HttpStatus.NOT_FOUND.value(), "User not found."));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(createErrorResponse(HttpStatus.NOT_FOUND.value(), "User not found or GitHub API limit rate exceeded."));
         }
         if (acceptHeader.equals("application/json")){
             return ResponseEntity.ok(RepoService.getRepos(username));
