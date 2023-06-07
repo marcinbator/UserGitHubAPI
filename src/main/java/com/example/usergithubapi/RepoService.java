@@ -13,8 +13,6 @@ import java.util.ArrayList;
 
 public class RepoService {
     public static ArrayList<RepoToShow> getRepos(String username) throws IOException {
-        
-
         ObjectMapper objectMapper=new ObjectMapper();
         ArrayList<Repo> repos=objectMapper.readValue(new URL("https://api.github.com/users/"+username+"/repos"), new TypeReference<>() {});
         ArrayList<Repo> reposToRemove=new ArrayList<>();
