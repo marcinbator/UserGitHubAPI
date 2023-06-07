@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class RepoService {
     public static ArrayList<RepoToShow> getRepos(String username) throws IOException {
-        String apiUrl = "https://api.github.com/users/"+username+"/repos";
+        String apiUrl = "https://api.github.com/"+username+"/repos";
         URL url1 = new URL(apiUrl);
 
         HttpURLConnection connection = (HttpURLConnection) url1.openConnection();

@@ -18,19 +18,16 @@ public class RepoController {
 
     @GetMapping("/api/{username}")
     public ResponseEntity<?> getRepositoriesJson(@RequestHeader(HttpHeaders.ACCEPT) String acceptHeader, @PathVariable String username) throws IOException {
-//        if(acceptHeader.equals(MediaType.APPLICATION_JSON_VALUE)){
-//            System.out.println("json");
-//            if(RepoService.ifUserExists(username)){
-//                System.out.println("exists");
-//                return ResponseEntity.ok(RepoService.getRepos(username));
-//            }
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(createErrorResponse(HttpStatus.NOT_FOUND.value(), "User not found"));
-//        }
-//        if(acceptHeader.equals(MediaType.APPLICATION_XML_VALUE)){
-//            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(createErrorResponse(HttpStatus.NOT_ACCEPTABLE.value(), "XML not supported."));
-//        }
-//        return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body(createErrorResponse(HttpStatus.REQUEST_TIMEOUT.value(), "Connection failed - GitHub API rate exceeded."));
-        return ResponseEntity.ok(RepoService.getRepos(username));
+        if(acceptHeader.equals(MediaType.APPLICATION_JSON_VALUE)){
+            if(RepoService.ifUserExists(username)){
+                return ResponseEntity.ok(RepoService.getRepos(username));
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(createErrorResponse(HttpStatus.NOT_FOUND.value(), "User not found"));
+        }
+        if(acceptHeader.equals(MediaType.APPLICATION_XML_VALUE)){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(createErrorResponse(HttpStatus.NOT_ACCEPTABLE.value(), "XML not supported."));
+        }
+        return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body(createErrorResponse(HttpStatus.REQUEST_TIMEOUT.value(), "Connection failed - GitHub API rate exceeded."));
     }
 
     private Map<String, Object> createErrorResponse(int status, String message) {
