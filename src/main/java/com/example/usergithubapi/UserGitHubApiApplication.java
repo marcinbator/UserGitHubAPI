@@ -14,16 +14,7 @@ import java.util.ArrayList;
 @SpringBootApplication
 public class UserGitHubApiApplication {
 
-    public static void main(String[] args) throws IOException {
-        String username="marcinbator".toLowerCase();
+    public static void main(String[] args) {
         SpringApplication.run(UserGitHubApiApplication.class, args);
-        ObjectMapper objectMapper=new ObjectMapper();
-        ArrayList<Repo> repos=objectMapper.readValue(new URL("https://api.github.com/users/"+username+"/repos"), new TypeReference<>() {});
-        for(Repo repo:repos){
-            ArrayList<Branch> branches=objectMapper.readValue(new URL("https://api.github.com/repos/marcinbator/" + repo.name.toLowerCase() + "/branches"), new TypeReference<>() {
-            });
-            repo.setBranches(branches);
-        }
-        System.out.println(repos);
     }
 }
